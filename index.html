@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Geometry Test Study – Parallel & Perpendicular Lines</title>
+  <title>Geometry Self‑Test | Parallel & Perpendicular Lines</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
@@ -12,129 +12,185 @@
       padding: 20px;
       color: #222;
     }
-    h1, h2 {
-      color: #1f4fd8;
-    }
-    .section {
+    h1, h2 { color: #1f4fd8; }
+    .card {
       background: #fff;
       padding: 20px;
       margin-bottom: 20px;
-      border-radius: 10px;
+      border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.08);
     }
-    .flashcard {
-      background: #eef2ff;
-      padding: 15px;
-      border-radius: 8px;
-      cursor: pointer;
-      margin: 10px 0;
-    }
-    .answer {
-      display: none;
+    select, button, input {
+      padding: 10px;
       margin-top: 10px;
-      font-weight: bold;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      width: 100%;
     }
     button {
-      padding: 10px 15px;
-      border: none;
-      border-radius: 6px;
       background: #1f4fd8;
       color: white;
       cursor: pointer;
     }
-    button:hover {
-      background: #1639a3;
-    }
+    button:hover { background: #1639a3; }
+    .question { font-weight: bold; margin-bottom: 10px; }
+    .timer { font-size: 18px; font-weight: bold; color: #d81f1f; }
+    .hidden { display: none; }
   </style>
 </head>
 <body>
 
-<h1>📐 Geometry Test Study Guide</h1>
-<p><strong>Topic:</strong> Parallel & Perpendicular Lines</p>
+<h1>📐 Geometry Test Trainer</h1>
 
-<div class="section">
-  <h2>Lesson 2-1: Parallel Lines</h2>
-  <ul>
-    <li>Parallel lines never intersect</li>
-    <li>A transversal creates angle pairs</li>
-    <li>Angle pairs can be congruent or supplementary</li>
-  </ul>
+<div class="card">
+  <h2>Study Settings</h2>
 
-  <div class="flashcard" onclick="toggle(this)">
-    What are corresponding angles?
-    <div class="answer">
-      Angles in the same relative position; congruent if lines are parallel.
-    </div>
-  </div>
+  <label>Topic to Focus On</label>
+  <select id="topic">
+    <option value="parallel">Parallel Lines & Transversals</option>
+    <option value="prove">Proving Lines Parallel</option>
+    <option value="triangles">Triangle Angle Sums</option>
+    <option value="slopes">Slopes (Parallel & Perpendicular)</option>
+  </select>
 
-  <div class="flashcard" onclick="toggle(this)">
-    What are same-side interior angles?
-    <div class="answer">
-      Interior angles on the same side of the transversal that add to 180°.
-    </div>
-  </div>
+  <label>Question Type</label>
+  <select id="mode">
+    <option value="mc">Multiple Choice</option>
+    <option value="fr">Free Response</option>
+  </select>
+
+  <label>Quiz Length</label>
+  <select id="length">
+    <option value="5">5 Questions</option>
+    <option value="10">10 Questions</option>
+    <option value="15">15 Questions</option>
+  </select>
+
+  <button onclick="startQuiz()">Start Quiz</button>
 </div>
 
-<div class="section">
-  <h2>Lesson 2-2: Proving Lines Parallel</h2>
-  <ul>
-    <li>Use converses of angle theorems</li>
-    <li>Congruent angles → lines are parallel</li>
-    <li>Supplementary same-side interior angles → lines are parallel</li>
-  </ul>
-
-  <div class="flashcard" onclick="toggle(this)">
-    If alternate interior angles are congruent, what can you conclude?
-    <div class="answer">
-      The lines are parallel.
-    </div>
-  </div>
+<div class="card hidden" id="quizBox">
+  <div class="timer" id="timer">Time: 00:00</div>
+  <div class="question" id="question"></div>
+  <div id="answers"></div>
+  <button onclick="nextQuestion()">Submit / Next</button>
 </div>
 
-<div class="section">
-  <h2>Lesson 2-3: Triangles & Parallel Lines</h2>
-  <ul>
-    <li>Triangle interior angles add to 180°</li>
-    <li>Exterior angle = sum of remote interior angles</li>
-  </ul>
-
-  <div class="flashcard" onclick="toggle(this)">
-    What is the Triangle Sum Theorem?
-    <div class="answer">
-      The interior angles of a triangle add up to 180°.
-    </div>
-  </div>
-</div>
-
-<div class="section">
-  <h2>Lesson 2-4: Slopes</h2>
-  <ul>
-    <li>Parallel lines → same slope</li>
-    <li>Perpendicular lines → slopes multiply to −1</li>
-  </ul>
-
-  <div class="flashcard" onclick="toggle(this)">
-    If a line has slope 3, what is the slope of a perpendicular line?
-    <div class="answer">
-      −1/3
-    </div>
-  </div>
-</div>
-
-<div class="section">
-  <h2>📝 Test Strategy</h2>
-  <ul>
-    <li>Identify the transversal first</li>
-    <li>Label angle pairs before solving</li>
-    <li>Check if the problem asks to <em>prove</em> or <em>calculate</em></li>
-  </ul>
-</div>
+<div class="card hidden" id="results"></div>
 
 <script>
-  function toggle(card) {
-    const answer = card.querySelector('.answer');
-    answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+let questions = {
+  parallel: [
+    {
+      q: "If two parallel lines are cut by a transversal, what is true about corresponding angles?",
+      mc: ["They are supplementary", "They are congruent", "They add to 360°", "They are vertical"],
+      a: "They are congruent"
+    }
+  ],
+  prove: [
+    {
+      q: "If alternate interior angles are congruent, what can be concluded?",
+      mc: ["Lines intersect", "Lines are perpendicular", "Lines are parallel", "No conclusion"],
+      a: "Lines are parallel"
+    }
+  ],
+  triangles: [
+    {
+      q: "What is the sum of the interior angles of a triangle?",
+      mc: ["90°", "180°", "270°", "360°"],
+      a: "180°"
+    }
+  ],
+  slopes: [
+    {
+      q: "If a line has slope 4, what is the slope of a perpendicular line?",
+      mc: ["4", "-4", "1/4", "-1/4"],
+      a: "-1/4"
+    }
+  ]
+};
+
+let current = 0;
+let score = 0;
+let quiz = [];
+let time = 0;
+let timerInterval;
+
+function startQuiz() {
+  current = 0;
+  score = 0;
+  time = 0;
+  quiz = [];
+
+  let topic = document.getElementById('topic').value;
+  let count = parseInt(document.getElementById('length').value);
+
+  for (let i = 0; i < count; i++) {
+    quiz.push(questions[topic][Math.floor(Math.random() * questions[topic].length)]);
   }
+
+  document.getElementById('quizBox').classList.remove('hidden');
+  document.getElementById('results').classList.add('hidden');
+
+  startTimer();
+  loadQuestion();
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    time++;
+    let min = String(Math.floor(time / 60)).padStart(2,'0');
+    let sec = String(time % 60).padStart(2,'0');
+    document.getElementById('timer').innerText = `Time: ${min}:${sec}`;
+  }, 1000);
+}
+
+function loadQuestion() {
+  let q = quiz[current];
+  document.getElementById('question').innerText = q.q;
+  let answers = document.getElementById('answers');
+  answers.innerHTML = '';
+
+  if (document.getElementById('mode').value === 'mc') {
+    q.mc.forEach(choice => {
+      answers.innerHTML += `<label><input type='radio' name='ans' value='${choice}'> ${choice}</label><br>`;
+    });
+  } else {
+    answers.innerHTML = "<input id='fr' placeholder='Type your answer here'>";
+  }
+}
+
+function nextQuestion() {
+  let q = quiz[current];
+  let userAnswer;
+
+  if (document.getElementById('mode').value === 'mc') {
+    let selected = document.querySelector("input[name='ans']:checked");
+    if (!selected) return alert("Choose an answer");
+    userAnswer = selected.value;
+  } else {
+    userAnswer = document.getElementById('fr').value.trim();
+  }
+
+  if (userAnswer === q.a) score++;
+
+  current++;
+  if (current >= quiz.length) endQuiz();
+  else loadQuestion();
+}
+
+function endQuiz() {
+  clearInterval(timerInterval);
+  document.getElementById('quizBox').classList.add('hidden');
+  document.getElementById('results').classList.remove('hidden');
+  document.getElementById('results').innerHTML = `
+    <h2>Results</h2>
+    <p>Score: ${score} / ${quiz.length}</p>
+    <p>Time: ${time} seconds</p>
+    <p>${score/quiz.length >= 0.8 ? '✅ Test Ready' : '⚠️ Review Weak Areas'}</p>
+  `;
+}
 </script>
 
 </body>
