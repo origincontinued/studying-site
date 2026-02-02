@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Geometry Test Study – Parallel & Perpendicular Lines</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f6f8fa;
+      margin: 0;
+      padding: 20px;
+      color: #222;
+    }
+    h1, h2 {
+      color: #1f4fd8;
+    }
+    .section {
+      background: #fff;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+    .flashcard {
+      background: #eef2ff;
+      padding: 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 10px 0;
+    }
+    .answer {
+      display: none;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    button {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 6px;
+      background: #1f4fd8;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #1639a3;
+    }
+  </style>
+</head>
+<body>
+
+<h1>📐 Geometry Test Study Guide</h1>
+<p><strong>Topic:</strong> Parallel & Perpendicular Lines</p>
+
+<div class="section">
+  <h2>Lesson 2-1: Parallel Lines</h2>
+  <ul>
+    <li>Parallel lines never intersect</li>
+    <li>A transversal creates angle pairs</li>
+    <li>Angle pairs can be congruent or supplementary</li>
+  </ul>
+
+  <div class="flashcard" onclick="toggle(this)">
+    What are corresponding angles?
+    <div class="answer">
+      Angles in the same relative position; congruent if lines are parallel.
+    </div>
+  </div>
+
+  <div class="flashcard" onclick="toggle(this)">
+    What are same-side interior angles?
+    <div class="answer">
+      Interior angles on the same side of the transversal that add to 180°.
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>Lesson 2-2: Proving Lines Parallel</h2>
+  <ul>
+    <li>Use converses of angle theorems</li>
+    <li>Congruent angles → lines are parallel</li>
+    <li>Supplementary same-side interior angles → lines are parallel</li>
+  </ul>
+
+  <div class="flashcard" onclick="toggle(this)">
+    If alternate interior angles are congruent, what can you conclude?
+    <div class="answer">
+      The lines are parallel.
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>Lesson 2-3: Triangles & Parallel Lines</h2>
+  <ul>
+    <li>Triangle interior angles add to 180°</li>
+    <li>Exterior angle = sum of remote interior angles</li>
+  </ul>
+
+  <div class="flashcard" onclick="toggle(this)">
+    What is the Triangle Sum Theorem?
+    <div class="answer">
+      The interior angles of a triangle add up to 180°.
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>Lesson 2-4: Slopes</h2>
+  <ul>
+    <li>Parallel lines → same slope</li>
+    <li>Perpendicular lines → slopes multiply to −1</li>
+  </ul>
+
+  <div class="flashcard" onclick="toggle(this)">
+    If a line has slope 3, what is the slope of a perpendicular line?
+    <div class="answer">
+      −1/3
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>📝 Test Strategy</h2>
+  <ul>
+    <li>Identify the transversal first</li>
+    <li>Label angle pairs before solving</li>
+    <li>Check if the problem asks to <em>prove</em> or <em>calculate</em></li>
+  </ul>
+</div>
+
+<script>
+  function toggle(card) {
+    const answer = card.querySelector('.answer');
+    answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+  }
+</script>
+
+</body>
+</html>
